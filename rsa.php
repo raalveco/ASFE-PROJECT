@@ -45,7 +45,7 @@
 			$private_key = Rsa::obtenerLlavePrivada($key);
 			$sello = Rsa::generarSelloDigital($cadena,$private_key);
 			
-			return $sello;
+			return $sello; 
 		}
 	}
 ?>
