@@ -1,0 +1,12 @@
+Se tiene que copiar los archivos originales a la carpeta donde este el openssl.exe y ejecutar desde consola
+las siguientes instrucciones
+
+* Para convertir certificado y clave del SAT a formato PEM de OpenSSL
+
+	x509 -inform DER -outform PEM -in aaa010101aaa_csd_01.cer -pubkey –out aaa010101aaa_csd_01.cer.pem
+
+	pkcs8 –inform DER –in aaa010101aaa_csd_01.key –passin pass:a0123456789 –out aaa010101aaa_csd_01.key.pem
+
+* Para leer el certificado
+
+	x509 –text –in aaa010101aaa_csd_01.cer.pem

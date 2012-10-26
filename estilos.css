@@ -1,0 +1,46 @@
+body
+	{ background-color:#CCCCCC; font-family:Arial, Helvetica, sans-serif; text-align:center; padding:10px;
+	background-image:url(fondo027.gif); overflow:hidden;}
+	
+#imagen
+	{
+	  background-color:#FFFFFF; width:800px; height:500px; background-image:url(Orange_Wallpaper_by_Ash_Marie.jpg);
+	  background-repeat:no-repeat; display:block; text-align:left;
+	}
+
+#titulo
+	{
+		 display:block; background-color:#571504; width:780px; height:15px; filter:alpha(opacity=60); opacity:0.6;
+		 position:relative; top:0px; left:0px; padding:10px; color:#FFFFFF; font-family:Arial, Helvetica, sans-serif;
+		 font-size:12px; text-align:left; 
+	}
+	
+#sombra
+	{
+		 background-color:#333333; width:800px; height:500px; filter:alpha(opacity=40); opacity:0.40;
+		 position:relative; display:block; top:-490px; left:10px; z-index:-1;
+	}
+	
+#verCFD
+	{
+		 width:200px; height:230px; background-image:url(ver.png); cursor:pointer;
+		 position:relative; display:block; top:100px; left:50px;
+		 filter:alpha(opacity=85); opacity:0.85;
+	}
+#verCFD:hover { filter:alpha(opacity=100); opacity:1;}
+	
+#crearCFD
+	{
+		 width:200px; height:230px; background-image:url(crear.png); cursor:pointer;
+		 position:relative; display:block; top:-130px; left:300px;
+		 filter:alpha(opacity=85); opacity:0.85;  
+	}
+#crearCFD:hover { filter:alpha(opacity=100); opacity:1;}
+	
+#validarCFD
+	{
+	 	 width:200px; height:230px; background-image:url(validar.png); cursor:pointer;
+		 position:relative; display:block; top:-360px; left:550px; 
+		 filter:alpha(opacity=85); opacity:0.85;
+	}
+#validarCFD:hover { filter:alpha(opacity=100); opacity:1;}
