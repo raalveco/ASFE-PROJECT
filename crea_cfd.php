@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $archivo_key = "archivosPEM/aaa010101aaa_csd_01.key.pem";
 $archivo_cer = "archivosPEM/aaa010101aaa_csd_01.cer.pem";
