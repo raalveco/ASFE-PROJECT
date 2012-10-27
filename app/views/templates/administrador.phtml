@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
+		<title><?= PROYECTO_NOMBRE ?></title>
+		<link rel="shortcut icon" href="http://www.amecasoft.com.mx/favicon.ico" type="image/x-icon" /> 
+		<meta http-equiv="imagetoolbar" content="no" />
+		
+		<?= stylesheet_link_tag('style') ?>
+		<?= stylesheet_link_tag('windows') ?>
+		<?= stylesheet_link_tag('amecasoft') ?>
+		
+		<?= View::partial("jquery",false,'template: ui-darkness'); ?>
+        
+        <?= javascript_include_tag('kumbia/validations') ?>
+		<?= javascript_include_tag('amecasoft') ?>
+		<?= javascript_include_tag("windows") ?>
+  
+  		<?php Load::lib("html") ?>
+  		<?php Load::lib("formulario") ?>
+        
+	</head>
+	<body style="padding: 0px;">
+	<!-- ENCABEZADO DE LA PAGINA -->
+		<table style="width: 100%; background-color: #D7DEF8;">
+			<tr>
+				<td width="200px" style="text-align: center;">
+					<?= Html::imagen("amecasoft.png","Amecasoft S.A. de C.V.",110) ?>
+				</td>
+				<td>
+					<center>
+					<?= Formulario::inicioAjax("general/buscar","principal"); ?>
+    					<table>
+				    		<tr>
+				    			<td>
+				    				<?php $categorias = ProductoCategoria::reporte("id>0"); ?>
+				    				<?= Formulario::autocompleteModelo("bgeneral",$categorias,"nombre","","validate: required:true","class: texto_chico","style: width: 400px; height: 25px; background-color: #FFF;") ?>
+				    			</td>
+				    			<td>
+				              		<?= Formulario::submit("BUSCAR","class: boton1") ?>
+				            	</td>
+				    		</tr>
+				    	</table>
+				    <?= Formulario::fin(); ?>
+				    </center>
+				</td>
+				<td style="text-align: right; font-size: 14px;">
+					<?= Session::get("nombre_usuario"); ?> <?= Html::link("seguridad/cerrar",Html::imagen("exit.png","Cerrar Sesion",35,35)) ?>					
+				</td>
+			</tr>
+		</table>    	
+	<!-- FIN ENCABEZADO DE LA PAGINA -->
+	
+	<!-- MENU ESTILO WINDOWS -->
+	<?php Load::lib("windows") ?>
+	<?php 
+		
+		$windows = new Windows();
+	
+		$configuracion = $windows -> panel("Configuración",false);
+		
+		$cuentas = $windows -> panel("Cuentas",false);
+		
+		$clientes = $windows -> panel("Clientes",false);
+		
+		$clientes -> link("clientes/registro","Nuevo Cliente","miniconos/user_add.png","principal");
+		$clientes -> link("clientes/reporte","Todos los Clientes","miniconos/group.png","principal");
+		$clientes -> link("clientes/tipos","Tipos de Cliente","miniconos/images.png","principal");
+		
+		$productos = $windows -> panel("Productos",true);
+		
+		$productos -> link("productos/registro","Nuevo Producto","miniconos/mouse_add.png","principal");
+		$productos -> link("productos/reporte","Todos los Productos","miniconos/database_table.png","principal");
+		$productos -> link("productos/inventario","Inventario","miniconos/application_view_list.png","principal");
+		$productos -> link("productos/categorias","Lista de Categorías","miniconos/computer	.png","principal");
+		$productos -> link("productos/marcas","Lista de Marcas","miniconos/bricks.png","principal");
+		//$productos -> link("productos/descuentos","Descuentos","miniconos/basket_put.png","principal");
+		//$productos -> link("productos/precios","Lista de Precios","miniconos/page_white_acrobat.png");
+		
+		$cotizaciones = $windows -> panel("Cotizaciones",false);
+		
+		$cotizaciones -> link("cotizaciones/cotizar/iva","Nueva Cotización","miniconos/table_row_insert.png","principal");
+		$cotizaciones -> link("cotizaciones/reporte","Todas las Cotizaciones","miniconos/table_multiple.png","principal");
+		
+		$compras = $windows -> panel("Compras",false); 
+		
+		$ventas = $windows -> panel("Ventas",true);
+		
+		$ventas -> link("ventas/venta","Nueva Venta","miniconos/cart_add.png","principal");
+		$ventas -> link("ventas/productos","Códigos de Barras","miniconos/text_padding_left.png","principal");
+		$ventas -> link("ventas/reporte","Reporte de Ventas","miniconos/report.png","principal");
+		
+		$facturacion = $windows -> panel("Facturacion",true);
+		
+		$facturacion -> link("facturacion/index","Nueva Factura","miniconos/table_add.png","principal");
+		$facturacion -> link("facturacion/pendientes","Ventas x Facturar","miniconos/table_key.png","principal");
+		$facturacion -> link("facturacion/reporte","Reporte de Facturas","miniconos/table_multiple.png","principal");
+		
+		$pedidos = $windows -> panel("Pedidos",false);
+		
+		$polizas = $windows -> panel("Polizas",false);
+		
+		$windows -> renderizar();
+	?> 
+	<!-- FIN MENU ESTILO WINDOWS -->
+	<div id="principal" style="margin: 15px; margin-left: 210px; height: 661px; posicion: relative;">
+		<?php View::content(); ?>
+	</div>
+</body>
+</html>

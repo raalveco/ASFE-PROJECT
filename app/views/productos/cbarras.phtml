@@ -1,0 +1,14 @@
+<?= Load::lib("formulario") ?>
+<script language="JavaScript">
+	document.getElementById("codigo").value="";
+	document.getElementById("codigo").focus();
+</script>
+<?= Formulario::inicioAjax("productos/cambiar_cbarras","barras".$producto -> id) ?>
+<?= Formulario::oculto("id",$producto -> id); ?>
+<table>
+	<tr>
+		<td><?= Formulario::mayusculas("codigo","","style: width: 50px; text-align: center;","class: trebuchet","validate: required:true") ?></td>
+		<td><?= Formulario::imagen("Modificar Codigo de Barras","miniconos/disk.png") ?></td>
+	</tr>
+</table>
+<?= Formulario::fin() ?>

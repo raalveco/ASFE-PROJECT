@@ -1,0 +1,116 @@
+<?php Load::lib("html") ?>
+<?php Load::lib("formulario") ?>
+
+<?php $titulo = "Reporte de Categorias" ?>
+<?php $subtitulo = "Las categorías son una forma de clasificar los productos de la tienda." ?>
+<?php $modelo = "Categoría"; ?>
+<?php 
+    $titulos = array(
+        "codigo" => "Código|100",
+        "nombre" => "Nombre|1500" 
+    );
+?> 
+
+<?= isset($msg) ? View::partial("mensajes", false, array("mensaje" => $mensaje, "msg" => $msg) ) : "" ?>
+
+<table style="width: 100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="panel_azul">
+			<?= Formulario::inicioAjax($controller_name."/registrarCategoria","principal"); ?>
+		    <div style="float: left;">
+		    	<div class="titulo"><?= $titulo ?></div>
+		        <div class="subtitulo"><?= $subtitulo ?></div>
+		    </div>
+		    <div style="float: right;">
+		    	<table>
+		    		<tr>
+		    			<td>
+		    				<?= Formulario::mayusculas("codigo","","validate: required:true","class: texto_chico","style: width: 50px;","maxlength: 3") ?>
+		    			</td>
+		    			<td>
+		    				<?= Formulario::mayusculas("nombre","","validate: required:true","class: texto_chico") ?>
+		    			</td>
+		    			<td>
+		              		<?= Formulario::submit("AGREGAR","class: boton1") ?>
+		            	</td>
+		    		</tr>
+		    	</table>
+		    </div>
+		    <?= Formulario::fin(); ?>
+		</td>
+	</tr>
+	<tr>
+		<td class="panel_gris">
+			<table border="0" cellpadding="1" cellspacing="1" style="width: 100%;">
+		        <tr>
+		            <?php if($titulos) foreach($titulos as $field => $value){ $titulo = substr($value,0,strpos($value,"|")); $tam = substr($value,strpos($value,"|")+1); ?>
+		            <th style="width: <?= $tam ?>px;" class="reporte_header">
+		                <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$field."-".($campo==$field ? $orden : "ASC")."/1", $titulo,"principal") ?>
+		                <?php 
+		                    if($campo == $field){
+		                        if($orden=="ASC"){
+		                            echo Html::linkAjax($controller_name."/categorias/".$filtro."/".$field."-".($campo==$field ? $orden : "ASC")."/1",Html::imagen("icons/button_download.png","Ordenar Ascendente",12,12),"principal");
+		                        }
+		                        else{
+		                            echo Html::linkAjax($controller_name."/categorias/".$filtro."/".$field."-".($campo==$field ? $orden : "ASC")."/1",Html::imagen("icons/button_upload.png","Ordenar Descendente",12,12),"principal");
+		                        }
+		                    }
+		                ?>
+		            </th>
+		            <?php } ?>
+		            <th width="30" class="reporte_header">
+		                
+		            </th>
+		        </tr>
+		        <?php $i=0; if($registros) foreach($registros as $registro){ $i++; ?>
+		       	<tr style="height: 20px;">
+		            <?php if($titulos) foreach($titulos as $field => $value){ ?>
+		                <td class="reporte_fila<?= $i ?>" align="<?= $field == "codigo" ? "center" : "left" ?>"><?= $registro -> {$field} ?></td>
+		            <?php } ?>
+		            <td class="reporte_fila<?= $i ?>" style="max-width: 30px;">
+		            	<?= Html::linkAjaxConfirmado($controller_name."/eliminarCategoria/".$registro -> id,Html::imagen("miniconos/delete.png","Eliminar ".$modelo,15,15),"principal","") ?>
+		            </td>
+		        </tr>
+		        <?php if($i>=2) $i=0; } ?>
+		        <tr>
+		            <th colspan="7" class="reporte_footer">
+		                <table border="0" style="width: 100%;">
+		                    <tr>
+		                        <td style="text-align: left; width: 100%;" class="trebuchet">Total de Registros: <?= $nregistros ?></td>
+		                        <?php if($nps>10){ ?>
+		                            <?php if($np>=3){ ?>                    
+		                            <td class="reporte_paginas">
+		                                <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/1","1","principal") ?> 
+		                            </td>
+		                            <td class="reporte_paginas">
+		                                <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/".($np - 2),"...","principal") ?> 
+		                            </td>
+		                            <?php } ?>                        
+		                            <?php for($i=($np>1 ? $np-1 : $np);$i<=($np+1>$nps ? $np : $np+1);$i++){ ?>
+		                                <td <?= $i==$np ? 'class="reporte_pagina_actual"' : 'class="reporte_paginas"' ?>>
+		                                    <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/".$i,$i,"principal") ?> 
+		                                </td>
+		                            <?php } ?>
+		                            <?php if($i<=$nps){ ?>                        
+		                            <td class="reporte_paginas">
+		                                <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/".$i,"...","principal") ?>    
+		                            </td>
+		                            <td class="reporte_paginas">
+		                                <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/".$nps,$nps,"principal") ?>    
+		                            </td>
+		                            <?php } ?>
+		                        <?php } else { ?> 
+		                            <?php for($i=1;$i<=$nps;$i++){ ?>
+		                                <td <?= $i==$np ? 'class="reporte_pagina_actual"' : 'class="reporte_paginas"' ?>>
+		                                    <?= Html::linkAjax($controller_name."/categorias/".$filtro."/".$campo."-".($orden=='ASC' ? 'DESC' : 'ASC')."/".$i,$i,"principal") ?> 
+		                                </td>
+		                            <?php } ?>    
+		                        <?php } ?>                   
+		                    </tr>
+		                </table>
+		            </th>
+		        </tr>
+		    </table>
+		</td>
+	</tr>
+</table>

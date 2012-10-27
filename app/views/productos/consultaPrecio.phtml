@@ -1,0 +1,140 @@
+<?php Load::lib("html") ?>
+<?php Load::lib("formulario") ?>
+
+<?= javascript_include_tag("numero") ?>
+
+<script language="JavaScript">
+	document.getElementById("bgeneral").value = "";
+	
+	function descontar(){
+		porcentaje = document.getElementById("descuento").options[document.getElementById("descuento").selectedIndex].value;
+		
+		precio = <?= $producto -> precio_contado ?>;
+		
+		descuento = precio * porcentaje / 100;
+		
+		var numero = new oNumero(Math.round(precio - descuento));
+		
+		document.getElementById("precio").value =  "$ " + (numero.formato(2, true));
+	}
+</script> 
+
+<?php
+	$limite = 5;
+?>
+<?php $descuentos = array(); for($i=0;$i<=$limite;$i++){$descuentos[$i] = $i."%"; } ?>
+
+<?php $titulo = "Consulta de Precio" ?>
+<?php $subtitulo = "A continuación se muestra la información del producto consultado." ?>
+<?php $modelo = "Producto"; ?>
+
+<?= isset($msg) ? View::partial("mensajes", false, array("mensaje" => $mensaje, "msg" => $msg) ) : "" ?>
+
+<table style="width: 100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="panel_gris" style="width: 80%">
+			<div style="float: left;">
+		    	<div class="titulo"><?= $titulo ?></div>
+		        <div class="subtitulo"><?= $subtitulo ?></div>
+		    </div>
+		    <div style="float: right;">
+		    	<table>
+		    		<tr>
+		    			<td>
+		    				<!--
+		    					<?= Html::linkAjax($controller_name."/reporte","TODOS LOS PRODUCTOS","principal","id: link_boton1") ?></a>
+		    				-->
+		           		</td>
+		    		</tr>
+		    	</table>
+		    </div>
+    	</td>
+	</tr>
+	<tr>
+		<td class="panel_azul">
+			<?= Formulario::inicioAjax("ventas/vender","principal") ?>
+		    <?= Formulario::oculto("producto",$producto -> id) ?>
+		    <table border="0" cellpadding="1" cellspacing="1" style="width: 100%">
+		    	<tr>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.67%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    		<td style="width: 23%"></td>
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<?= Formulario::titulo("Información del Producto",false) ?>
+		                <?= Formulario::mayusculas("codigo",$producto -> codigo,"class: tchico","disabled: disabled;","disabled: disabled") ?>
+		                <?= Formulario::subtitulo("Código",false) ?>
+		    		</td>
+		    		<td style="width: 2.66%"></td>
+		    		<td>
+		    			<?= Formulario::titulo("",false) ?>
+		                <?php $categorias = ProductoCategoria::reporte("id>0","nombre ASC"); ?>
+		                <?= Formulario::autocompleteModelo("categoria",$categorias,"nombre",$producto -> categoria() -> nombre,"validate: required:true","class: tchico","disabled: disabled") ?>
+		                <?= Formulario::subtitulo("Categoría",true) ?>
+		    		</td>
+		    		<td style="width: 2.67%"></td>
+		    		<td>
+		    			<?= Formulario::titulo("",false) ?>
+		    			<?php $marcas = ProductoMarca::reporte("id>0","nombre ASC"); ?>
+		                <?= Formulario::autocompleteModelo("marca",$marcas,"nombre",$producto -> marca() -> nombre,"class: tchico","disabled: disabled") ?>
+		                <?= Formulario::subtitulo("Marca de Fabricante",false) ?>
+		    		</td>
+		    		<td style="width: 2.66%"></td>
+		    		<td rowspan="3">
+		    			<?= Formulario::titulo("",false) ?>
+		    			<?= Formulario::dinero("precio",$producto -> precio_contado,"validate: required:true","class: tchico","style: text-align: center; font-size: 64px; font-weight: bold; height: 100px;","disabled: disabled") ?>
+		                <?= Formulario::subtitulo("Precio de Contado",true) ?>
+		    		</td>
+		    	</tr>
+		    	<tr style="height: 10px;">
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.67%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    	</tr>
+		    	<tr>
+		    		<td colspan="3">
+		    			<?= Formulario::mayusculas("nombre",$producto -> nombre,"validate: required:true","class: tmediano","disabled: disabled") ?>
+		                <?= Formulario::subtitulo("Nombre",true) ?>
+		    		</td>
+		    		<td style="width: 2.67%"></td>
+		    		<td>
+		                <?= Formulario::select("descuento",$descuentos,"class: schico","style: text-align: center;","onchange: descontar();") ?>
+		                <?= Formulario::subtitulo("Descuento",false) ?>
+		    		</td>
+		    		<td style="width: 2.66%"></td>
+		    	</tr>
+		    	<tr style="height: 10px;">
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.67%"></td>
+		    		<td style="width: 23%"></td>
+		    		<td style="width: 2.66%"></td>
+		    		<td style="width: 23%"></td>
+		    	</tr>
+		    	<tr>
+		    		<td colspan="6" class="trebuchet">
+		    			<i>Los campos con <?= Formulario::asterisco() ?> son obligatorios.</i>
+		    		</td>
+		    		<td align="right">
+		    			<table border="0">
+		                    <tr>
+		                        <td>
+		                        	<?= Formulario::submit("VENDER","class: boton1",$producto -> stock_sucursal <= 0 ? "onclick: return confirm('¿En realidad deseas vender un producto que no se encuentra disponible?')" : "") ?>    
+		                        </td>
+		                    </tr>
+		                </table>
+		    		</td>
+		    	</tr>
+		    </table>
+		</td>
+	</tr>
+</table>

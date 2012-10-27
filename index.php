@@ -1,19 +1,25 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>PITUS Billing</title>
-<link href="estilos.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-<div align="center">
-	<div id="imagen">
-		<div id="titulo">Script de PHP para Facturación Electrónica by Alberto Ocotitla </div>
-		<a id="verCFD" href="facturas/" target="_blank">.</a>
-		<a id="crearCFD" href="crea.php" target="_blank">.</a>
-		<a id="validarCFD" href="https://www.consulta.sat.gob.mx/SICOFI_WEB/ModuloECFD_Plus/ValidadorComprobantes/Validador.asp" target="_blank">.</a>
-	</div>
-	<div id="sombra"></div>
-</div>
-</body>
-</html>
+<?php
+/**
+ * KumbiaPHP web & app Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://wiki.kumbiaphp.com/Licencia
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@kumbiaphp.com so we can send you a copy immediately.
+ *
+ * index.php
+ * 
+ * @category   Kumbia
+ * @copyright  Copyright (c) 2005-2009 Kumbia Team (http://www.kumbiaphp.com)
+ * @license    http://wiki.kumbiaphp.com/Licencia     New BSD License
+ */
+
+/**
+ * Carga el index.php de public
+ **/
+include 'app/public/index.php';
