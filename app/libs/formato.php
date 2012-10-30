@@ -106,7 +106,6 @@
 			$texto = str_replace("Í","I",$texto);
 			$texto = str_replace("Ó","O",$texto);
 			$texto = str_replace("Ú","U",$texto);
-			$texto = str_replace("Ñ","N",$texto);
 			
 			return $texto;
 		}
